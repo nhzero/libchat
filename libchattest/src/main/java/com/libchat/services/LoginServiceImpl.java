@@ -71,7 +71,7 @@ public class LoginServiceImpl implements LoginService {
 		return this.jdbc;
 	}
 	
-	public boolean createUser(String username, String pass) {
+	public boolean createUser(String username, String pass, String email) {
 		if(jdbc == null){
 			return false;
 		}
@@ -81,7 +81,7 @@ public class LoginServiceImpl implements LoginService {
 		if( user > 0 ) {
 			return false;
 		} else {
-			int updated = getJdbcTemplate().update("insert into user (username, password) values(? ,?)", new Object[]{username,pass});
+			int updated = getJdbcTemplate().update("insert into user (username, password, email) values(? ,? ,?)", new Object[]{username,pass,email});
 			if( updated > 0 ) {
 				return true;
 			} else {

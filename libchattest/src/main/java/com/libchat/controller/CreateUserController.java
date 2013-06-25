@@ -26,7 +26,7 @@ public class CreateUserController {
 			
 			
 			if(!loginService.checkIfLoginExists(username)) {
-				if(loginService.createUser(username, pass)){
+				if(loginService.createUser(username, pass, email)){
 					return "true";	
 				} else {
 					return "false";
