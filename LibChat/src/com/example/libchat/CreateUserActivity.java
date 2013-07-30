@@ -32,7 +32,7 @@ public class CreateUserActivity extends Activity {
 		String passConf=((EditText) findViewById(R.id.passConf)).getText().toString();
 		String email=((EditText) findViewById(R.id.email)).getText().toString();
 		String emailConf=((EditText) findViewById(R.id.emailConf)).getText().toString();
-		String stuff = "http://192.168.1.2:8080/libchattest/create?username="+username+"&pass="+pass+"&email="+email;
+		String stuff = "http://192.168.1.3:8080/libchattest/create?username="+username+"&pass="+pass+"&email="+email;
 		if (!pass.equals(passConf) || !email.equals(emailConf)) {
 			 TextView error = new TextView(view.getContext());
 			 error.setText("password or emails do not match");

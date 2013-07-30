@@ -14,6 +14,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
@@ -38,11 +40,16 @@ public class MainActivity extends Activity {
 		return true;
 	}
 	
+	@SuppressLint("NewApi")
 	public void clickLogin(View view) throws URISyntaxException {
 		
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy); 
+		
+		String serverResponse = "";
 		String un= ((EditText) findViewById(R.id.EditText01)).getText().toString();
 		String pass= ((EditText) findViewById(R.id.passConf)).getText().toString();
-		String stuff = "http://192.168.1.2:8080/libchattest/login?username="+un+"&pass="+pass;
+		String stuff = "http://192.168.1.3:8080/libchattest/login?username="+un+"&pass="+pass;
 		if ( pass == "" || un == "") {
 			return;
 		}
@@ -74,10 +81,9 @@ public class MainActivity extends Activity {
 	      StringBuffer response = new StringBuffer(); 
 	      while((line = rd.readLine()) != null) {
 	        response.append(line);
-	        response.append('\r');
 	      }
 	      rd.close();
-	     
+	      serverResponse = response.toString();
 
 	    } catch (Exception e) {
 
@@ -89,6 +95,11 @@ public class MainActivity extends Activity {
 	      if(connection != null) {
 	        connection.disconnect(); 
 	      }
+	    }
+	    
+	    if(serverResponse.equals("true")) {
+			Intent intent = new Intent(this, MapActivity.class);
+			startActivity(intent);
 	    }
 		
 	}
