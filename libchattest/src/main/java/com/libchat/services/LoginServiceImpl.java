@@ -1,94 +1,68 @@
 package com.libchat.services;
-
-import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import com.libchat.dao.*;
 
 @Service
 public class LoginServiceImpl implements LoginService {
 	
-	
-	private JdbcTemplate  jdbc;
-	
-	public boolean checkLogin(String username, String pass) {
-		
-		if(jdbc == null ) {
+  @Autowired
+	private DAOManager manager;
+
+  public void setManager(DAOManager manager) {
+    this.manager = manager;
+  }
+  
+  public DAOManager getManager() {
+    return manager;
+  }
+
+  
+  public boolean checkLogin(String username, String pass) {
+    DAOManager tempManager = getManager();
+    System.out.println("Manager address: " + tempManager);
+    
+	  DAOUser user = getManager().getUserByName(username);
+	  
+	  if( user == null )
+		{
+		  return false;
+		}
+
+		if( user.getPassword().equals(pass) ) {
+			return true;
+		}
+		else 
+	  {
 			return false;
 		}
-		try {
-			String password = (String) getJdbcTemplate().queryForObject("select password from user where username = ?", new Object[]{username}, String.class);
-		
-			if(password == null){
-				return false;
-			}
-			if( pass.equals(password) ) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}	
-		catch(EmptyResultDataAccessException e) {
-			return false;
-		}
-		
 	}
 	
 	public boolean checkIfLoginExists(String username) {
-		
-		if(jdbc == null ) {
-			return false;
-		}
-		try{
-			String password = (String) getJdbcTemplate().queryForObject("select username from user where username = ?", new Object[]{username}, String.class);
-			
-			if(password == null){
-				return false;
-			}
-			if( password.equals(username) ) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}	
-		catch(EmptyResultDataAccessException e) {
-			return false;
-		}
-		
-		
-	}
-	
-	@Autowired
-	void setDataSource(BasicDataSource dataSource) {
-		this.jdbc = new JdbcTemplate(dataSource);
-	}
-	
-	public JdbcTemplate getJdbcTemplate() {
-		return this.jdbc;
-	}
-	
-	public boolean createUser(String username, String pass, String email) {
-		if(jdbc == null){
-			return false;
-		}
-		
-		int user = (int) getJdbcTemplate().queryForObject("select count(*) from user where username = ?", new Object[]{username}, Integer.class);
-		
-		if( user > 0 ) {
-			return false;
-		} else {
-			int updated = getJdbcTemplate().update("insert into user (username, password, email) values(? ,? ,?)", new Object[]{username,pass,email});
-			if( updated > 0 ) {
-				return true;
-			} else {
-				return false;
-			}
-		}
+	  DAOUser user = getManager().getUserByName(username);
+	  
+	  if( user == null )
+  	{  
+  	  return false;
+  	}
+  	  else
+  	{
+  	  return true;
+  	}
 	}
 	
 
+	public boolean createUser(String username, String pass, String email) {
+	  if(!checkLogin(username, pass))
+	  {
+	    return false;
+	  }
+	  else
+	  {
+	    getManager().insertUser(username, pass);
+	  
+	    return true;
+	  }
+	}
 }

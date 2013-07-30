@@ -24,9 +24,18 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">  
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />  
 		<property name="url" value="jdbc:mysql://localhost:3306/libchat" />  
-		<property name="username" value="root" />  
-		<property name="password" value="" />  
+		<property name="username" value="anjruu" />  
+		<property name="password" value="password" />  
     </bean>  
-        
+    
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+  		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="manager" class="org.mybatis.spring.mapper.MapperFactoryBean">
+  		<property name="mapperInterface" value="com.libchat.dao.DAOManager" />
+  		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
 
 </beans>
