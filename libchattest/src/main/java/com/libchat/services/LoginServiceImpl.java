@@ -20,9 +20,6 @@ public class LoginServiceImpl implements LoginService {
 
   
   public boolean checkLogin(String username, String pass) {
-    DAOManager tempManager = getManager();
-    System.out.println("Manager address: " + tempManager);
-    
 	  DAOUser user = getManager().getUserByName(username);
 	  
 	  if( user == null )
@@ -54,7 +51,7 @@ public class LoginServiceImpl implements LoginService {
 	
 
 	public boolean createUser(String username, String pass, String email) {
-	  if(!checkLogin(username, pass))
+	  if(checkLogin(username, pass))
 	  {
 	    return false;
 	  }

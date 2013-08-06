@@ -5,7 +5,7 @@ import com.libchat.dao.DAOBuilding;
 public class Building {
 
   private Long schoolId;
-  private Long number;
+  private String name;
   private Integer floor;
   private String room;
   
@@ -16,7 +16,7 @@ public class Building {
   
   public Building(final DAOBuilding building) {
     this.schoolId = building.getSchoolId();
-    this.number = building.getNumber();
+    this.name = building.getName();
     this.floor = building.getFloor();
     this.room = building.getRoom();
   }
@@ -30,12 +30,12 @@ public class Building {
     this.schoolId = schoolId;
   }
 
-  public Long getNumber() {
-    return number;
+  public String getName() {
+    return name;
   }
 
-  public void setNumber(Long number) {
-    this.number = number;
+  public void setName(String number) {
+    this.name = number;
   }
 
   public Integer getFloor() {

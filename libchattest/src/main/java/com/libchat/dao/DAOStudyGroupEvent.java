@@ -1,6 +1,6 @@
 package com.libchat.dao;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class DAOStudyGroupEvent extends DAO{
   private static final long serialVersionUID = 260639090896017335L;

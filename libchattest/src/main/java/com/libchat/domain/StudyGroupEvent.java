@@ -1,6 +1,6 @@
 package com.libchat.domain;
 
-import java.sql.Date;
+import java.util.Date;
 import com.libchat.dao.DAOStudyGroupEvent;
 
 public class StudyGroupEvent {

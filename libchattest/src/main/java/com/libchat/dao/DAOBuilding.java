@@ -4,7 +4,7 @@ public class DAOBuilding extends DAO {
   private static final long serialVersionUID = -858632959071139662L;
   
   private Long schoolId;
-  private Long number;
+  private String name;
   private Integer floor;
   private String room;
   
@@ -20,12 +20,12 @@ public class DAOBuilding extends DAO {
     this.schoolId = schoolId;
   }
 
-  public Long getNumber() {
-    return number;
+  public String getName() {
+    return name;
   }
 
-  public void setNumber(Long number) {
-    this.number = number;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public Integer getFloor() {
